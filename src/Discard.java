@@ -1,0 +1,29 @@
+import java.util.*;
+
+public class Discard {
+    private final Set<Card> discard;
+
+    public Discard() {
+        discard = new TreeSet<>();
+    }
+
+    public void add(Card card) {
+        discard.add(card);
+    }
+
+    public void addAll(Collection<Card> cards) {
+        discard.addAll(cards);
+    }
+
+    public boolean contains(Card card) {
+        return discard.contains(card);
+    }
+
+    public boolean isEmpty() {
+        return discard.isEmpty();
+    }
+
+    public void clear() {
+        discard.clear();
+    }
+}
