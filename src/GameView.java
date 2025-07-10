@@ -3,30 +3,22 @@ import java.awt.*;
 
 public class GameView extends JPanel {
     private final Game game;
-    private final BoardView boardView;
+    private final TableView tableView;
     private final HandView attackerHandView;
     private final HandView defenderHandView;
-    private final DeckView deckView;
-    private final DiscardView discardView;
 
     public GameView(Game game) {
         this.game = game;
-        setLayout(new BorderLayout());
-        boardView = new BoardView(game.getBoard());
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         attackerHandView = new HandView(game.getAttacker());
         defenderHandView = new HandView(game.getDefender());
-        deckView = new DeckView(game.getDeck());
-        discardView = new DiscardView(game.getDiscard());
+        tableView = new TableView(game.getBoard(), game.getDeck(), game.getDiscard());
 
-        add(boardView, BorderLayout.CENTER);
-        add(attackerHandView, BorderLayout.SOUTH);
-        add(defenderHandView, BorderLayout.NORTH);
-        add(deckView, BorderLayout.EAST);
-        add(discardView, BorderLayout.WEST);
-    }
-
-    public void updateBoard() {
-        boardView.update();
+        add(defenderHandView);
+        add(Box.createVerticalGlue());
+        add(tableView);
+        add(Box.createVerticalGlue());
+        add(attackerHandView);
     }
 
     public void updateAttackerHand() {
@@ -37,11 +29,7 @@ public class GameView extends JPanel {
         defenderHandView.update();
     }
 
-    public void updateDeck() {
-        deckView.update();
-    }
-
-    public void updateDiscard() {
-        discardView.update();
+    public void updateTable() {
+        tableView.update();
     }
 }

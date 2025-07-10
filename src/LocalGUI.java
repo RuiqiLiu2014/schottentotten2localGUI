@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 
 public class LocalGUI {
     public static void main(String[] args) {

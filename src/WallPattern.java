@@ -1,8 +1,17 @@
 public enum WallPattern {
-    COLOR,
-    RUN,
-    EQUALS,
-    PLUS,
-    MINUS,
-    NONE
+    COLOR("C"),
+    RUN("R"),
+    EQUALS("="),
+    PLUS("+"),
+    MINUS("-"),
+    NONE(" ");
+    private final String symbol;
+
+    WallPattern(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
 }

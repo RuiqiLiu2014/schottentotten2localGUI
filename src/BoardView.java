@@ -2,11 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 
 public class BoardView extends JPanel {
-    private Board board;
+    private final Board board;
 
     public BoardView(Board board) {
         this.board = board;
-        setLayout(new GridLayout(1, Constants.NUM_WALLS));
+        int hgap = 15;
+        setLayout(new FlowLayout(FlowLayout.CENTER, hgap, 0));
 
         for (Wall wall : board.getWalls()) {
             add(new WallView(wall));

@@ -5,6 +5,8 @@ public class DiscardView extends JPanel {
 
     public DiscardView(Discard discard) {
         this.discard = discard;
+
+
     }
 
     public void update() {

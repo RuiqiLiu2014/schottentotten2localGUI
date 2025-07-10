@@ -7,6 +7,13 @@ public class CardView extends JPanel {
     private final Card card;
     private boolean hovered;
 
+    public CardView(Card card) {
+        this.card = card;
+        hovered = false;
+        setPreferredSize(new Dimension(Constants.CARD_WIDTH, Constants.CARD_HEIGHT));
+        setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    }
+
     public CardView(Card card, Runnable onClick) {
         this.card = card;
         hovered = false;
