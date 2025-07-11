@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Game {
     private final Player attacker;
     private final Player defender;
@@ -21,6 +23,39 @@ public class Game {
             attacker.draw(deck);
             defender.draw(deck);
         }
+    }
+
+    public void declareControl() {
+        List<Card> remainingCards = new ArrayList<>();
+        for (Card card : Constants.ALL_CARDS) {
+            if (!discard.contains(card) && !board.contains(card)) {
+                remainingCards.add(card);
+            }
+        }
+        discard.addAll(board.declareControl(remainingCards));
+    }
+
+    public Winner getWinner(boolean checkDeck) {
+        int numDamaged = 0;
+        Wall[] walls = board.getWalls();
+        for (Wall wall : walls) {
+            switch (wall.getStatus()) {
+                case BROKEN -> {
+                    return Winner.ATTACKER;
+                }
+                case DAMAGED -> numDamaged++;
+            }
+        }
+
+        if (numDamaged >= 4) {
+            return Winner.ATTACKER;
+        }
+
+        if (checkDeck && (deck.isEmpty() || board.defenderSideFull())) {
+            return Winner.DEFENDER;
+        }
+
+        return Winner.NONE;
     }
 
     public Player getAttacker() {

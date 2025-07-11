@@ -8,7 +8,7 @@ public class DiscardView extends JPanel {
 
     public DiscardView(Discard discard) {
         this.discard = discard;
-        setLayout(new GridLayout(1, 5, 10, 0));
+        setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
         update();
     }
 
@@ -17,13 +17,18 @@ public class DiscardView extends JPanel {
         Map<CardColor, List<Card>> cardsByColor = discard.getCardsByColor();
         for (CardColor color : cardsByColor.keySet()) {
             List<Card> cards = cardsByColor.get(color);
-            JPanel column = new JPanel();
-            column.setLayout(null);
-            for (int i = 0; i < cards.size(); i++) {
-                CardView cardView = new CardView(cards.get(i));
-                cardView.setBounds(0, i * Constants.OVERLAP, Constants.CARD_WIDTH, Constants.CARD_HEIGHT);
+            if (!cards.isEmpty()) {
+                JPanel column = new JPanel();
+                column.setLayout(null);
+                column.setPreferredSize(new Dimension(Constants.CARD_WIDTH, Constants.CARD_HEIGHT + (Constants.VALUES.size() - 1) * Constants.OVERLAP));
+                for (int i = cards.size() - 1; i >= 0; i--) {
+                    Card card = cards.get(i);
+                    CardView cardView = new CardView(card);
+                    cardView.setBounds(0, card.getValue() * Constants.OVERLAP, Constants.CARD_WIDTH, Constants.CARD_HEIGHT);
+                    column.add(cardView);
+                }
+                add(column);
             }
-            add(column);
         }
     }
 }

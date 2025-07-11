@@ -30,6 +30,7 @@ public class CardContainer extends JPanel {
 
     public void unPop() {
         popped = false;
+        parent.unselectCard();
         updatePosition();
     }
 
@@ -39,5 +40,9 @@ public class CardContainer extends JPanel {
         } else {
             cardView.setLocation(0, popDown ? 0 : POP_OFFSET);
         }
+    }
+
+    public Card getCard() {
+        return cardView.getCard();
     }
 }

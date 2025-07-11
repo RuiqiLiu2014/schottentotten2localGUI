@@ -17,7 +17,7 @@ public class Constants {
     public static final int WINDOW_HEIGHT = 720;
     public static final int CARD_WIDTH = WINDOW_WIDTH / 20;
     public static final int CARD_HEIGHT = WINDOW_HEIGHT / 8;
-    public static final int OVERLAP = CARD_HEIGHT / 4;
+    public static final int OVERLAP = CARD_HEIGHT / 3;
 
 
     static {

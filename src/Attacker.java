@@ -3,10 +3,6 @@ public class Attacker extends Player {
         super();
     }
 
-    public boolean playCard() {
-        return false;
-    }
-
     public PlayerType getPlayerType() {
         return PlayerType.ATTACKER;
     }

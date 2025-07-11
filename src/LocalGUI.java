@@ -7,10 +7,9 @@ public class LocalGUI {
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         Game game = new Game(new Attacker(), new Defender(), new Board(), new Deck(), new Discard());
-        game.setup();
-        GameView gameView = new GameView(game);
-        mainFrame.add(gameView);
-
+        GameController gameController = new GameController(game);
+        gameController.runGame();
+        mainFrame.add(gameController.getGameView());
         mainFrame.setVisible(true);
     }
 }

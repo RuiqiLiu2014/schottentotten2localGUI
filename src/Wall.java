@@ -12,6 +12,9 @@ public class Wall {
     private final List<Card> attackerCards;
     private final List<Card> defenderCards;
 
+    private boolean attackerFinishedFirst;
+    private static final int MULTIPLIER = 100;
+
     public enum Status {
         BROKEN, DAMAGED, INTACT
     }
@@ -61,7 +64,49 @@ public class Wall {
         return length;
     }
 
-    public Set<Card> damage() {
+    public PlayResult playCard(Card card, boolean isAttacker) {
+        List<Card> playingSide;
+        List<Card> otherSide;
+        if (isAttacker) {
+            playingSide = attackerCards;
+            otherSide = defenderCards;
+        } else {
+            playingSide = defenderCards;
+            otherSide = attackerCards;
+        }
+
+        if (playingSide.size() == length) {
+            return new PlayResult(false);
+        }
+
+        playingSide.add(card);
+        List<Card> toDiscard = new ArrayList<>();
+        int value = card.getValue();
+        if (value == 0 || value == 11) {
+            Card temp = new Card(card.getColor(), 11 - value);
+            if (otherSide.contains(temp)) {
+                playingSide.remove(card);
+                otherSide.remove(temp);
+                toDiscard.add(card);
+                toDiscard.add(temp);
+            }
+        }
+        attackerFinishedFirst = attackerCards.size() == length && defenderCards.size() < length;
+        return new PlayResult(true, toDiscard);
+    }
+
+    public Set<Card> declareControl(List<Card> remainingCards) {
+        if (attackerCards.size() == length) {
+            int defenderStrength = getStrongestDefenderFormationStrength(defenderCards, remainingCards, length, Integer.MIN_VALUE);
+            int attackerStrength = getStrength(attackerCards);
+            if ((attackerStrength > defenderStrength) || (attackerFinishedFirst && attackerStrength >= defenderStrength)) {
+                return damage();
+            }
+        }
+        return new TreeSet<>();
+    }
+
+    private Set<Card> damage() {
         if (status == Status.DAMAGED) {
             status = Status.BROKEN;
         } else {
@@ -74,5 +119,83 @@ public class Wall {
         attackerCards.clear();
         defenderCards.clear();
         return toDiscard;
+    }
+
+    private int getStrongestDefenderFormationStrength(List<Card> currentFormation, List<Card> remainingCards, int length, int maxStrength) {
+        if (currentFormation.size() == length) {
+            return Math.max(getStrength(currentFormation), maxStrength);
+        }
+        for (int i = 0; i < remainingCards.size(); i++) {
+            Card card = remainingCards.remove(i);
+            currentFormation.add(card);
+            maxStrength = Math.max(getStrongestDefenderFormationStrength(currentFormation, remainingCards, length, maxStrength), maxStrength);
+            currentFormation.remove(card);
+            remainingCards.add(i, card);
+        }
+        return maxStrength;
+    }
+
+    private int getStrength(List<Card> formation) {
+        int sum = 0;
+        for (Card card : formation) {
+            sum += card.getValue();
+        }
+        FormationType type = getFormationType(formation);
+
+        switch (pattern) {
+            case WallPattern.PLUS -> {
+                type = FormationType.SUM;
+            }
+            case WallPattern.MINUS -> {
+                type = FormationType.SUM;
+                sum *= -1;
+            }
+            case WallPattern.COLOR -> {
+                if (type == FormationType.SAME_STRENGTH || type == FormationType.RUN) {
+                    type = FormationType.SUM;
+                }
+            }
+            case WallPattern.RUN -> {
+                if (type == FormationType.SAME_STRENGTH || type == FormationType.COLOR) {
+                    type = FormationType.SUM;
+                }
+            }
+            case WallPattern.EQUALS -> {
+                if (type == FormationType.COLOR_RUN || type == FormationType.COLOR || type == FormationType.RUN) {
+                    type = FormationType.SUM;
+                }
+            }
+        }
+        return type.getStrength() * MULTIPLIER + sum;
+    }
+
+    private FormationType getFormationType(List<Card> formation) {
+        Set<CardColor> colors = new TreeSet<>();
+        List<Integer> values = new ArrayList<>();
+        for (Card card : formation) {
+            colors.add(card.getColor());
+            values.add(card.getValue());
+        }
+        Collections.sort(values);
+
+        Set<Integer> diffs = new HashSet<>();
+        for (int i = 0; i < formation.size() - 1; i++) {
+            diffs.add(values.get(i + 1) - values.get(i));
+        }
+
+        if (colors.size() == 1) {
+            return diffs.size() == 1 && diffs.contains(1) ? FormationType.COLOR_RUN : FormationType.COLOR;
+        }
+
+        if (diffs.size() == 1) {
+            if (diffs.contains(0)) {
+                return FormationType.SAME_STRENGTH;
+            }
+            if (diffs.contains(1)) {
+                return FormationType.RUN;
+            }
+        }
+
+        return FormationType.SUM;
     }
 }

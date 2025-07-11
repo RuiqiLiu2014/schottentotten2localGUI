@@ -7,7 +7,7 @@ public class HandView extends JPanel {
 
     public HandView(Player player) {
         this.player = player;
-        setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0)); // negative hgap makes cards overlap
+        setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         setMaximumSize(new Dimension(Constants.WINDOW_WIDTH, Constants.CARD_HEIGHT));
         for (Card card : player.getHand().getCards()) {
             add(new CardContainer(card, player.getPlayerType() == PlayerType.DEFENDER, this));
@@ -28,5 +28,13 @@ public class HandView extends JPanel {
             selectedCard.unPop();
         }
         selectedCard = clickedCard;
+    }
+
+    public Card getSelectedCard() {
+        return selectedCard == null ? null : selectedCard.getCard();
+    }
+
+    public void unselectCard() {
+        selectedCard = null;
     }
 }

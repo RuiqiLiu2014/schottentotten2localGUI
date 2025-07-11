@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.function.Consumer;
 
 public class GameView extends JPanel {
     private final Game game;
@@ -7,12 +8,12 @@ public class GameView extends JPanel {
     private final HandView attackerHandView;
     private final HandView defenderHandView;
 
-    public GameView(Game game) {
+    public GameView(Game game, Consumer<Wall> onWallClicked) {
         this.game = game;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         attackerHandView = new HandView(game.getAttacker());
         defenderHandView = new HandView(game.getDefender());
-        tableView = new TableView(game.getBoard(), game.getDeck(), game.getDiscard());
+        tableView = new TableView(game.getBoard(), game.getDeck(), game.getDiscard(), onWallClicked);
 
         add(defenderHandView);
         add(Box.createVerticalGlue());
@@ -21,15 +22,35 @@ public class GameView extends JPanel {
         add(attackerHandView);
     }
 
-    public void updateAttackerHand() {
+    public void update() {
         attackerHandView.update();
-    }
-
-    public void updateDefenderHand() {
         defenderHandView.update();
+        tableView.update();
     }
 
-    public void updateTable() {
-        tableView.update();
+    public void displayWinner(Winner winner) {
+        String message = switch (winner) {
+            case ATTACKER -> "Attacker wins!";
+            case DEFENDER -> "Defender wins!";
+            case NONE -> null;
+        };
+        JOptionPane.showMessageDialog(this, message, "Game Over", JOptionPane.INFORMATION_MESSAGE);
+        update();
+    }
+
+    public Card getSelectedAttackerCard() {
+        return attackerHandView.getSelectedCard();
+    }
+
+    public Card getSelectedDefenderCard() {
+        return defenderHandView.getSelectedCard();
+    }
+
+    public void unselectAttackerCard() {
+        attackerHandView.unselectCard();
+    }
+
+    public void unselectDefenderCard() {
+        defenderHandView.unselectCard();
     }
 }

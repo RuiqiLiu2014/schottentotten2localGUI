@@ -18,7 +18,5 @@ public abstract class Player {
         return hand;
     }
 
-    public abstract boolean playCard();
-
     public abstract PlayerType getPlayerType();
 }

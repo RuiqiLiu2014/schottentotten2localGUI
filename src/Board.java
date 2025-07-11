@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Board {
     private final Wall[] walls;
 
@@ -25,5 +27,22 @@ public class Board {
             }
         }
         return false;
+    }
+
+    public Set<Card> declareControl(List<Card> remainingCards) {
+        Set<Card> toDiscard = new TreeSet<>();
+        for (Wall wall : walls) {
+            toDiscard.addAll(wall.declareControl(remainingCards));
+        }
+        return toDiscard;
+    }
+
+    public boolean defenderSideFull() {
+        for (Wall wall : walls) {
+            if (wall.getDefenderCards().size() < wall.getLength()) {
+                return false;
+            }
+        }
+        return true;
     }
 }
