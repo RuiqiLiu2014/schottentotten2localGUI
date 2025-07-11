@@ -13,10 +13,12 @@ public class Constants {
     public static final int NUM_CAULDRONS = 3;
     public static final int HAND_SIZE = 6;
 
-    public static final int CARD_WIDTH = 60;
-    public static final int CARD_HEIGHT = 90;
     public static final int WINDOW_WIDTH = 1280;
     public static final int WINDOW_HEIGHT = 720;
+    public static final int CARD_WIDTH = WINDOW_WIDTH / 20;
+    public static final int CARD_HEIGHT = WINDOW_HEIGHT / 8;
+    public static final int OVERLAP = CARD_HEIGHT / 4;
+
 
     static {
         ALL_CARDS = new TreeSet<>();

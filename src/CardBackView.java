@@ -4,6 +4,7 @@ import java.awt.*;
 public class CardBackView extends JPanel {
     public CardBackView() {
         setPreferredSize(new Dimension(Constants.CARD_WIDTH, Constants.CARD_HEIGHT));
+        setMaximumSize(new Dimension(Constants.CARD_WIDTH, Constants.CARD_HEIGHT));
         setBackground(Color.BLUE);
         setOpaque(true);
     }

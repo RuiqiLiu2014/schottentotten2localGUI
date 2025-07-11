@@ -14,8 +14,6 @@ public class DeckView extends JPanel {
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JPanel cardBackView = new CardBackView();
-        cardBackView.setMaximumSize(new Dimension(Constants.CARD_WIDTH, Constants.CARD_HEIGHT));
-        cardBackView.setMinimumSize(new Dimension(Constants.CARD_WIDTH, Constants.CARD_HEIGHT));
         cardBackView.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         add(Box.createVerticalGlue());

@@ -26,4 +26,17 @@ public class Discard {
     public void clear() {
         discard.clear();
     }
+
+    public Map<CardColor, List<Card>> getCardsByColor() {
+        Map<CardColor, List<Card>> cardsByColor = new TreeMap<>();
+        for (CardColor color : CardColor.values()) {
+            cardsByColor.put(color, new ArrayList<>());
+        }
+
+        for (Card card : discard) {
+            cardsByColor.get(card.getColor()).add(card);
+        }
+
+        return cardsByColor;
+    }
 }

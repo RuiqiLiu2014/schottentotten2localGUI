@@ -4,7 +4,6 @@ import java.util.List;
 
 public class WallView extends JPanel {
     private final Wall wall;
-    private static final int OVERLAP = 30;
     public static final int OVERALL_HEIGHT = Constants.WINDOW_HEIGHT - 3 * Constants.CARD_HEIGHT;
     public static final int WALL_WIDTH = Constants.CARD_WIDTH;
     public static final int WALL_HEIGHT = 50;
@@ -18,7 +17,7 @@ public class WallView extends JPanel {
         List<Card> topCards = wall.getDefenderCards();
         for (int i = 0; i < topCards.size(); i++) {
             CardView cardView = new CardView(topCards.get(i));
-            cardView.setBounds(0, (OVERALL_HEIGHT - WALL_HEIGHT) / 2 - i * OVERLAP - OVERLAP / 2, Constants.CARD_WIDTH, Constants.CARD_HEIGHT);
+            cardView.setBounds(0, (OVERALL_HEIGHT - WALL_HEIGHT) / 2 - i * Constants.OVERLAP - Constants.OVERLAP / 2, Constants.CARD_WIDTH, Constants.CARD_HEIGHT);
             add(cardView);
         }
 
@@ -32,7 +31,7 @@ public class WallView extends JPanel {
         List<Card> bottomCards = wall.getAttackerCards();
         for (int i = 0; i < bottomCards.size(); i++) {
             CardView cardView = new CardView(bottomCards.get(i));
-            cardView.setBounds(0, (OVERALL_HEIGHT + WALL_HEIGHT) / 2 + i * OVERLAP + OVERLAP / 2, Constants.CARD_WIDTH, Constants.CARD_HEIGHT);
+            cardView.setBounds(0, (OVERALL_HEIGHT + WALL_HEIGHT) / 2 + i * Constants.OVERLAP + Constants.OVERLAP / 2, Constants.CARD_WIDTH, Constants.CARD_HEIGHT);
             add(cardView);
         }
     }

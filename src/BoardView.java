@@ -8,6 +8,7 @@ public class BoardView extends JPanel {
         this.board = board;
         int hgap = 15;
         setLayout(new FlowLayout(FlowLayout.CENTER, hgap, 0));
+        setMaximumSize(new Dimension(Constants.NUM_WALLS * WallView.WALL_WIDTH + (Constants.NUM_WALLS - 1) * hgap, WallView.OVERALL_HEIGHT));
 
         for (Wall wall : board.getWalls()) {
             add(new WallView(wall));
