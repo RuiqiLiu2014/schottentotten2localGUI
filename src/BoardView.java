@@ -4,7 +4,7 @@ import java.util.function.Consumer;
 
 public class BoardView extends JPanel {
     private final Board board;
-    Consumer<Wall> onWallClicked;
+    private final Consumer<Wall> onWallClicked;
 
     public BoardView(Board board, Consumer<Wall> onWallClicked) {
         this.board = board;
@@ -12,7 +12,6 @@ public class BoardView extends JPanel {
         int hgap = 15;
         setLayout(new FlowLayout(FlowLayout.CENTER, hgap, 0));
         setMaximumSize(new Dimension(Constants.NUM_WALLS * WallView.WALL_WIDTH + (Constants.NUM_WALLS - 1) * hgap, WallView.OVERALL_HEIGHT));
-
         update();
     }
 

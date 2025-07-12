@@ -51,16 +51,23 @@ public class CardView extends JPanel {
             g2.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 
             g2.setColor(card.getColor().getDisplayColor());
-            g2.setFont(new Font("Arial", Font.BOLD, 20));
-            String text = card.getValue() + "";
+            g2.setFont(new Font("Arial", Font.BOLD, 18));
             FontMetrics fm = g2.getFontMetrics();
             int padding = 5;
-            g2.drawString(text, padding, fm.getAscent() + padding);
-            g2.translate(getWidth(), getHeight());
-            g2.rotate(Math.PI);
-            g2.drawString(text, padding, fm.getAscent() + padding);
-
-            g2.dispose();
+            if (card.equals(Card.RETREAT)) {
+                g2.drawString("RETR", padding, fm.getAscent() + padding);
+                g2.drawString("EAT", padding, fm.getAscent() + padding + fm.getHeight());
+            } else if (card.equals(Card.CAULDRON)) {
+                g2.drawString("CAUL", padding, fm.getAscent() + padding);
+                g2.drawString("DRON", padding, fm.getAscent() + padding + fm.getHeight());
+            } else {
+                String text = card.getValue() + "";
+                g2.drawString(text, padding, fm.getAscent() + padding);
+                g2.translate(getWidth(), getHeight());
+                g2.rotate(Math.PI);
+                g2.drawString(text, padding, fm.getAscent() + padding);
+                g2.dispose();
+            }
         }
     }
 

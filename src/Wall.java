@@ -65,6 +65,20 @@ public class Wall {
     }
 
     public PlayResult playCard(Card card, boolean isAttacker) {
+        if (card.equals(Card.RETREAT)) {
+            List<Card> toDiscard = new ArrayList<>(attackerCards);
+            attackerCards.clear();
+            return new PlayResult(PlayResult.Type.ACTION, toDiscard);
+        }
+
+        if (card.equals(Card.CAULDRON)) {
+            if (!attackerCards.isEmpty()) {
+                List<Card> toDiscard = List.of(attackerCards.removeLast());
+                return new PlayResult(PlayResult.Type.ACTION, toDiscard);
+            }
+            return new PlayResult(PlayResult.Type.FAILURE);
+        }
+
         List<Card> playingSide;
         List<Card> otherSide;
         if (isAttacker) {
@@ -76,7 +90,7 @@ public class Wall {
         }
 
         if (playingSide.size() == length) {
-            return new PlayResult(false);
+            return new PlayResult(PlayResult.Type.FAILURE);
         }
 
         playingSide.add(card);
@@ -92,7 +106,7 @@ public class Wall {
             }
         }
         attackerFinishedFirst = attackerCards.size() == length && defenderCards.size() < length;
-        return new PlayResult(true, toDiscard);
+        return new PlayResult(PlayResult.Type.SUCCESS, toDiscard);
     }
 
     public Set<Card> declareControl(List<Card> remainingCards) {

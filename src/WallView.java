@@ -26,9 +26,13 @@ public class WallView extends JPanel {
 
         if (wall.getStatus() != Wall.Status.BROKEN) {
             JLabel label = new JLabel(("[" + wall.getPattern().getSymbol() + "]").repeat(wall.getLength()), SwingConstants.CENTER);
-            label.setFont(new Font("Arial", Font.BOLD, 15));
+            label.setFont(new Font("Arial", Font.PLAIN, 15));
             label.setOpaque(true);
-            label.setBackground(Color.LIGHT_GRAY);
+            if (wall.getStatus() == Wall.Status.DAMAGED) {
+                label.setBorder(BorderFactory.createDashedBorder(Color.BLACK, 2, 2, 4, false));
+            } else {
+                label.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+            }
             label.setBounds(0, (OVERALL_HEIGHT - WALL_HEIGHT) / 2, WALL_WIDTH, WALL_HEIGHT);
             add(label);
         }

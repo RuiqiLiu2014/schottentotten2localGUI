@@ -5,7 +5,8 @@ public enum CardColor {
     BLUE(new Color(61, 165, 209)),
     YELLOW(new Color(222, 195, 76)),
     GREEN(new Color(63, 145, 55)),
-    GRAY(new Color(140, 140, 140));
+    GRAY(new Color(140, 140, 140)),
+    ACTION_COLOR(Color.BLACK);
 
     private final Color color;
 
@@ -15,5 +16,11 @@ public enum CardColor {
 
     public Color getDisplayColor() {
         return color;
+    }
+
+    public static CardColor[] getAllColors() {
+        return new CardColor[] {
+            RED, BLUE, YELLOW, GREEN, GRAY
+        };
     }
 }

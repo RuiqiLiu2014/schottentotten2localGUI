@@ -22,7 +22,7 @@ public class Constants {
 
     static {
         ALL_CARDS = new TreeSet<>();
-        for (CardColor cardColor : CardColor.values()) {
+        for (CardColor cardColor : CardColor.getAllColors()) {
             for (int value : VALUES) {
                 ALL_CARDS.add(new Card(cardColor, value));
             }

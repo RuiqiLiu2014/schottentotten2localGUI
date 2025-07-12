@@ -9,15 +9,21 @@ public class HandView extends JPanel {
         this.player = player;
         setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         setMaximumSize(new Dimension(Constants.WINDOW_WIDTH, Constants.CARD_HEIGHT));
-        for (Card card : player.getHand().getCards()) {
-            add(new CardContainer(card, player.getPlayerType() == PlayerType.DEFENDER, this));
-        }
+        update();
     }
 
     public void update() {
         removeAll();
+        boolean isAttacker = player.getPlayerType() == PlayerType.ATTACKER;
         for (Card card : player.getHand().getCards()) {
-            add(new CardContainer(card, player.getPlayerType() == PlayerType.DEFENDER, this));
+            add(new CardContainer(card, !isAttacker, this));
+        }
+        if (isAttacker) {
+            add(new CardContainer(Card.RETREAT, false, this));
+        } else if (!player.hasUsedCauldron()) {
+            for (int i = 0; i < player.getCauldronCount(); i++) {
+                add(new CardContainer(Card.CAULDRON, true, this));
+            }
         }
         revalidate();
         repaint();
@@ -26,6 +32,9 @@ public class HandView extends JPanel {
     public void notifyCardClicked(CardContainer clickedCard) {
         if (selectedCard != null && selectedCard != clickedCard) {
             selectedCard.unPop();
+        } else if (selectedCard == clickedCard) {
+            unselectCard();
+            return;
         }
         selectedCard = clickedCard;
     }

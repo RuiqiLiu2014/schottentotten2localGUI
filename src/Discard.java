@@ -29,7 +29,7 @@ public class Discard {
 
     public Map<CardColor, List<Card>> getCardsByColor() {
         Map<CardColor, List<Card>> cardsByColor = new TreeMap<>();
-        for (CardColor color : CardColor.values()) {
+        for (CardColor color : CardColor.getAllColors()) {
             cardsByColor.put(color, new ArrayList<>());
         }
 

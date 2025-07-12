@@ -2,6 +2,8 @@ import java.util.*;
 
 public abstract class Player {
     protected Hand hand;
+    protected boolean usedCauldron;
+    protected int cauldronCount = Constants.NUM_CAULDRONS;
 
     public Player() {
         hand = new Hand();
@@ -19,4 +21,19 @@ public abstract class Player {
     }
 
     public abstract PlayerType getPlayerType();
+
+    public boolean hasUsedCauldron() {
+        return usedCauldron;
+    }
+
+    public void setUseCauldron(boolean used) {
+        if (used) {
+            cauldronCount--;
+        }
+        usedCauldron = used;
+    }
+
+    public int getCauldronCount() {
+        return cauldronCount;
+    }
 }

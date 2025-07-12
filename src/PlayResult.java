@@ -1,20 +1,24 @@
 import java.util.*;
 
 public class PlayResult {
-    private final boolean success;
+    private final Type type;
     private final List<Card> toDiscard;
 
-    public PlayResult(boolean success) {
-        this(success, null);
+    public enum Type {
+        SUCCESS, FAILURE, ACTION
     }
 
-    public PlayResult(boolean success, List<Card> toDiscard) {
-        this.success = success;
+    public PlayResult(Type type) {
+        this(type, null);
+    }
+
+    public PlayResult(Type type, List<Card> toDiscard) {
+        this.type = type;
         this.toDiscard = toDiscard == null ? new ArrayList<>() : toDiscard;
     }
 
-    public boolean wasSuccessful() {
-        return success;
+    public Type getResultType() {
+        return type;
     }
 
     public List<Card> getToDiscard() {

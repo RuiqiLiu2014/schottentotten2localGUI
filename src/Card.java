@@ -4,6 +4,9 @@ public class Card implements Comparable<Card> {
     private final int value;
     private final CardColor cardColor;
 
+    public static final Card RETREAT = new Card(CardColor.ACTION_COLOR, -1);
+    public static final Card CAULDRON = new Card(CardColor.ACTION_COLOR, -2);
+
     public Card(CardColor cardColor, int value) {
         this.value = value;
         this.cardColor = cardColor;
